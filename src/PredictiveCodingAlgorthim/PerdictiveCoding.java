@@ -25,20 +25,7 @@ public class PerdictiveCoding {
             for(int j = 0; j < width; j++)
                 allnumbers.add(arr[i][j]);
         
-        int num1 = allnumbers.get(0) , num2 = allnumbers.get(0);
-        for(int i = 1; i < allnumbers.size(); i++){
-            num1 = Math.max(allnumbers.get(i), num1);
-            num2 = Math.min(allnumbers.get(i), num2);
-        }
-        int stepSize = (int) ((num1-num2)/Math.pow(2, noOfBits));
         
-        ArrayList<Node> myRanges = new ArrayList<>();
-        int cum =0;
-        while(cum<num1)
-        {
-            myRanges.add(new Node( (int)((cum+(cum+stepSize-1))/2) , cum , cum+stepSize-1));
-            cum+=stepSize;
-        }
         
         
         ArrayList<Integer> diff = new ArrayList<>();
@@ -50,7 +37,21 @@ public class PerdictiveCoding {
         dequantization.add(allnumbers.get(0));
         decoded.add(allnumbers.get(0));
         
-        for(int i = 1 ; i < allnumbers.size(); i++) diff.add(Math.abs(allnumbers.get(i)-allnumbers.get(i-1)));
+        for(int i = 1 ; i < allnumbers.size(); i++) diff.add(allnumbers.get(i)-allnumbers.get(i-1));
+        int num1 = diff.get(1) , num2 = diff.get(1);
+        for(int i = 2; i < diff.size(); i++){
+            num1 = Math.max(diff.get(i), num1);
+            num2 = Math.min(diff.get(i), num2);
+        }
+        int stepSize = (int) Math.ceil((num1-num2)/Math.pow(2, noOfBits))+1;
+        
+        ArrayList<Node> myRanges = new ArrayList<>();
+        int cum = num2<0? num2 : 0;
+        while(cum<num1)
+        {
+            myRanges.add(new Node( (int)((cum+(cum+stepSize-1))/2) , cum , cum+stepSize-1));
+            cum+=stepSize;
+        }
         
         for(int i = 1 ; i < diff.size(); i++)
         {
@@ -76,13 +77,20 @@ public class PerdictiveCoding {
             p.println("Original number: " + allnumbers.get(i) + " current diff number: " + diff.get(i) 
             + " , quantizated number: " + quantization.get(i) + " , dequantizated number: " + dequantization.get(i)
             + " , decoded number: " + decoded.get(i));
+        p.close();
         
+        path = "C:\\Users\\Mostafa\\Desktop\\Programming courses and Assigments\\Java Assigments In college\\MultimediaAssigs\\src\\PredictiveCodingAlgorthim\\CodeBlock.txt";
+        p = new PrintWriter(path, "UTF-8");
+        p.println("Step size : " + stepSize);
+        for(int i = 0; i < myRanges.size(); i++){
+            p.println( "The Value: " + myRanges.get(i).getvalue() + " ,It's max: " + myRanges.get(i).getmax() + " ,It's min: " + myRanges.get(i).getmin() );
+        }
+        p.close();
         int coun = 0;
         for(int i = 0 ; i < height; i++)
             for(int j = 0; j < width; j++ , coun++){
                 arr[i][j] = decoded.get(coun);
            }
-        p.close();
         return arr;
     }
     

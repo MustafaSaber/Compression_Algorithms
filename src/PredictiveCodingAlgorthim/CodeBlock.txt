@@ -1,0 +1,16 @@
+Step size : 25
+The Value: -149 ,It's max: -137 ,It's min: -161
+The Value: -124 ,It's max: -112 ,It's min: -136
+The Value: -99 ,It's max: -87 ,It's min: -111
+The Value: -74 ,It's max: -62 ,It's min: -86
+The Value: -49 ,It's max: -37 ,It's min: -61
+The Value: -24 ,It's max: -12 ,It's min: -36
+The Value: 1 ,It's max: 13 ,It's min: -11
+The Value: 26 ,It's max: 38 ,It's min: 14
+The Value: 51 ,It's max: 63 ,It's min: 39
+The Value: 76 ,It's max: 88 ,It's min: 64
+The Value: 101 ,It's max: 113 ,It's min: 89
+The Value: 126 ,It's max: 138 ,It's min: 114
+The Value: 151 ,It's max: 163 ,It's min: 139
+The Value: 176 ,It's max: 188 ,It's min: 164
+The Value: 201 ,It's max: 213 ,It's min: 189
