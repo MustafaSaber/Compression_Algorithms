@@ -13,7 +13,7 @@ import javafx.util.Pair;
  *
  * @author mostafa3789
  */
-public class AlgorithmTwoMain {
+public class Main {
     public static void main(String[] args){
 //        LZW ff = new LZW();
 //        Scanner In = new Scanner(System.in);
