@@ -23,6 +23,9 @@ import java.util.regex.Pattern;
 public class NUQ {
 
     public String compress(int numberOfLevels) throws FileNotFoundException, IOException {
+        /*Before anything this code could made by pure recursion,
+        I would recommed you to make it recursive as it will be more simple in,
+        vector quantization.*/
         int i = 0;
         ArrayList<Integer> originalNumbers = new ArrayList<>();
         String path = "C:\\Users\\Mostafa\\Desktop\\Programming courses and Assigments\\Java Assigments In college\\MultimediaAssigs\\src\\ScalarNonUniformQuantizer\\toCompressVector.txt";
@@ -40,16 +43,31 @@ public class NUQ {
         
         ArrayList<Node> allMeans = new ArrayList<>();
         int currMean = 0;
+        //Calculate the first mean from all data.
         for (Integer originalNumber : originalNumbers) {
             currMean += originalNumber;
         }
+        
+        //split into two and add them
         allMeans.add(new Node(Math.ceil((currMean / originalNumbers.size()) - 1)));
         allMeans.add(new Node(Math.ceil((currMean / originalNumbers.size()) + 1)));
         int start = 0;
+        /*
+        a loop to add means every time we calculate a new mean we split into two
+        and add the two so every time it increase by i*2
+                                         mean
+                            right                         left
+                right right     right left      left right      left left
+        see the pattern
+        */
         for (i = 2; i <= numberOfLevels; i *= 2) {
+            //This loop to delete the prev nodes
+            // aka prev means that we splited from
             for (int j = 0; j < start; j++) {
                 allMeans.remove(0);
             }
+            
+            //Put data to the nearest mean
             for (int j = 0; j < originalNumbers.size(); j++) {
                 int index = 0;
                 double prev = 2000000000;
@@ -62,6 +80,7 @@ public class NUQ {
                 allMeans.get(index).addtoarr(originalNumbers.get(j));
             }
             int currSize = allMeans.size();
+            //To check if we need to add new levels or just delete the prev!
             if (i < numberOfLevels) {
                 for (int j = 0; j < currSize; j++) {
                     currMean = 0;
@@ -75,12 +94,16 @@ public class NUQ {
             start = i;
         }
         
+        //Sort data in every node
         for (Node x : allMeans) {
             Collections.sort(x.getMyArray());
         }
         
         Boolean ch = true;
         ArrayList<Node> temp;
+        
+        //Keep calculate means until stable
+        //Stable: the prev means equal curr means.
         while (ch) {
             ch = false;
             temp = new ArrayList<>();
