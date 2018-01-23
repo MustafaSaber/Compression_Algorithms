@@ -63,26 +63,9 @@ public class VectorQuantization {
     public int[][] compress(int width , int height, int[][]pict,int lvls) throws FileNotFoundException, UnsupportedEncodingException, IOException {
         
        String path = "C:\\Users\\Mostafa\\Desktop\\Programming courses and Assigments\\Java Assigments In college\\MultimediaAssigs\\src\\VectorQuantization\\toCompress.txt";
-        /* BufferedReader file = new BufferedReader(new FileReader(path));
-        ArrayList<Integer> tn = null;
-        ArrayList<ArrayList<Integer>> toArr = new ArrayList<>();
-        String rr ="";
-        while(true){
-            rr = file.readLine();
-            if(rr == null) break;
-            String[] number = rr.split(Pattern.quote(" "));
-            tn = new ArrayList<>();
-            for(String gh : number) tn.add(Integer.parseInt(gh));
-            toArr.add(tn);
-        }
-        
-        int width = toArr.get(0).size();
-        int height = toArr.size();
-        
-        int[][] pict = new int[height][width];
-        for(int i = 0 ; i < toArr.size(); i++)
-            for(int j = 0 ; j < toArr.get(i).size(); j++)
-                pict[i][j] = toArr.get(i).get(j);*/
+       
+       
+       //Check scalae nonuniform quantizer comments, the same algorthim this is just on a greater scale
         int Bwidth = 1, Bheight = 1;
         for (int i = 5; i < width; i++) {
             if (width % i == 0) {
@@ -110,21 +93,6 @@ public class VectorQuantization {
             }
         }
 
-        /*for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                System.out.print(pict[i][j] + " ");
-            }
-            System.out.println();
-        }
-        System.out.println("The blocks: ");
-        for (int i = 0; i < allBlocks.size(); i++) {
-            for (int j = 0; j < allBlocks.get(i).y; j++) {
-                for (int z = 0; z < allBlocks.get(i).x; z++) {
-                    System.out.print(allBlocks.get(i).arr[j][z] + " ");
-                }
-                System.out.println();
-            }
-        }*/
         ArrayList<Node> allmeans = new ArrayList<>();
         Block cur = new Block(Bwidth, Bheight);
         Block right = new Block(Bwidth, Bheight);
@@ -142,8 +110,6 @@ public class VectorQuantization {
         }
         allmeans.add(new Node(right));
         allmeans.add(new Node(left));
-        //right.printB();
-        //left.printB();
 
         int start = 0;
         //loop until reach the levels required
