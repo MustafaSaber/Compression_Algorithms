@@ -84,6 +84,7 @@ public class LZWGUI extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         LZW cuu = new LZW();
+        //change the path if you like
         String Path = "C:\\Users\\Mostafa\\Desktop\\Programming courses and Assigments\\Java Assigments In college\\LZ77\\src\\AlgorithmTwo\\decompress.txt";
         Vector<Tag> all = new Vector<>();
         try {
@@ -92,9 +93,12 @@ public class LZWGUI extends javax.swing.JFrame {
             String x = "";
             while(true)
             {
+                //read from a fill line by line
                 x = ff.readLine();
                 if(x == null) break;
+                //split every line by space char 
                 String[] ss = x.split(Pattern.quote(" "));
+                //Create the taf by the second element, It's depends on how you write in the file.
                 all.addElement(new Tag(Integer.parseInt(ss[1])));
             }
             ff.close();
