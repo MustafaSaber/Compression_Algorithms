@@ -44,6 +44,7 @@ public class Node implements Comparable<Node> {
         return (this.getF()-another.getF())*-1;
     }
     
+    //It's place would be better to be in StandardHuffman class like navigate.
     public void setCodes(Node temp)
     {
         if(temp ==  null) return;

@@ -23,8 +23,13 @@ public class StandardHuffman {
     private static Vector<String> dicOfValues = new Vector<>() ;
     public String compress(String text)
     {
+        
         ArrayList<Node> nodes = new ArrayList<>();
         Boolean check = false;
+        /*
+        Creating node for every char, if already exist just increase
+        it's ferquency. Then sorting them.
+        */
         for(int i = 0 ; i < text.length() ; i++)
         {
             check = false;
@@ -37,6 +42,11 @@ public class StandardHuffman {
         }
         Collections.sort(nodes);
         
+        /*
+            build the tree, every time take the last 2 elements,
+            make them the right and left of th third one the re-sort
+            until we have only one node in the nodes vector
+        */
         while(nodes.size()>=2){
             Node temp = new Node(nodes.get(nodes.size()-1).getF()+ nodes.get(nodes.size()-2).getF(),"", '-' );
             temp.setRN(nodes.get(nodes.size()-1));
@@ -46,8 +56,9 @@ public class StandardHuffman {
             nodes.add(temp);
             Collections.sort(nodes);
         }
-       
+       //Create the code for every letter
         nodes.get(0).setCodes(nodes.get(0));
+        //Create the dictionaries
         navigate(nodes.get(0));
         
         String comString = "";
