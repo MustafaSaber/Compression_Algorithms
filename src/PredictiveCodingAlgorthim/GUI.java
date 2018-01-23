@@ -7,7 +7,9 @@ package PredictiveCodingAlgorthim;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -93,16 +95,28 @@ public class GUI extends javax.swing.JFrame {
         int arr[][] = new int[height][width];
         for(int i = 0 ; i < height; i++)
             for(int j = 0 ; j < width; j++){
+                //extract the red color from every pixel
+                // a way to gray-scale the photo
                 int p = im.getRGB(j, i);
                 int r = (p>>16)&0xff;
                 arr[i][j] = r;
            }
-        arr = x.encode(Integer.parseInt(jTextField1.getText()), arr, width, height);
+        try {
+            arr = x.encode(Integer.parseInt(jTextField1.getText()), arr, width, height);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
         for(int i = 0 ; i < height; i++)
             for(int j = 0 ; j < width; j++){
                 
-                arr[i][j] = (arr[i][j]<<24) | (arr[i][j]<<16) | (arr[i][j]<<8) | arr[i][j];
-                im.setRGB(j, i, arr[i][j]);
+                //Re-build the photo.
+                int value =-1 << 24;
+	        value= 0xff000000 | (arr[i][j]<<16) | (arr[i][j]<<8) | (arr[i][j]);
+                //arr[i][j] = (arr[i][j]<<24) | (arr[i][j]<<16) | (arr[i][j]<<8) | arr[i][j];
+                //arr[i][j] = (arr[i][j]<<16);
+                im.setRGB(j, i, value);
            }
         f = new File("C:\\Users\\Mostafa\\Desktop\\Programming courses and Assigments\\acc.png");
         try {

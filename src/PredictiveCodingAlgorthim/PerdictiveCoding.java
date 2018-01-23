@@ -25,8 +25,8 @@ public class PerdictiveCoding {
             for(int j = 0; j < width; j++)
                 allnumbers.add(arr[i][j]);
         
-        
-        
+        //the work is on a picture, feed-forward algorithm
+        //It's a lossy compression
         
         ArrayList<Integer> diff = new ArrayList<>();
         ArrayList<Integer> quantization = new ArrayList<>();
@@ -36,6 +36,12 @@ public class PerdictiveCoding {
         quantization.add(allnumbers.get(0));
         dequantization.add(allnumbers.get(0));
         decoded.add(allnumbers.get(0));
+        //fill the diff vector with diff betweem data
+        /*
+            Want better results ?
+            as we work on gray scale image
+            if the diff is neg put 0 if greater than 255 put 255
+        */
         
         for(int i = 1 ; i < allnumbers.size(); i++) diff.add(allnumbers.get(i)-allnumbers.get(i-1));
         int num1 = diff.get(1) , num2 = diff.get(1);
@@ -43,6 +49,7 @@ public class PerdictiveCoding {
             num1 = Math.max(diff.get(i), num1);
             num2 = Math.min(diff.get(i), num2);
         }
+        //calculate the step size you need to mak the range required
         int stepSize = (int) Math.ceil((num1-num2)/Math.pow(2, noOfBits))+1;
         
         ArrayList<Node> myRanges = new ArrayList<>();
@@ -52,7 +59,10 @@ public class PerdictiveCoding {
             myRanges.add(new Node( (int)((cum+(cum+stepSize-1))/2) , cum , cum+stepSize-1));
             cum+=stepSize;
         }
-        
+        // build the quantization col
+        // if the diff less than smallest element but first element
+        // greater than greatest element but last element
+        // else linear search on ranges
         for(int i = 1 ; i < diff.size(); i++)
         {
             if(diff.get(i)< myRanges.get(0).getmin()) quantization.add(0);
@@ -87,6 +97,7 @@ public class PerdictiveCoding {
         }
         p.close();
         int coun = 0;
+        //Re-form the pixels of the image after the compression and descompression
         for(int i = 0 ; i < height; i++)
             for(int j = 0; j < width; j++ , coun++){
                 arr[i][j] = decoded.get(coun);
