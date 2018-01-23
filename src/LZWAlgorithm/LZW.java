@@ -20,13 +20,19 @@ public class LZW {
         String currS = "";
         Vector<String> names = new Vector<>();
         Vector<Integer> index = new Vector<>();
+        // Get the char's which have ascii from 1 - 128 and but it in names vector
+        //and store the index in index vector
         for(int i = 0 ; i < 128; i++)
         {
             names.addElement(Character.toString((char)i));
             index.addElement(i);
         }
+        
         for(int i = 0 ; i < needCompress.length(); i++)
         {
+            //Check if names has the new tag/string
+            //if has continue until you have a string not in names vector
+            //else add it and create a new tag
             if(names.contains(currS + needCompress.charAt(i))) currS += needCompress.charAt(i);
             else
             {
@@ -48,7 +54,6 @@ public class LZW {
         curr = 128;
         String required = "";
         Vector <Pair<String , Integer>> dict = new Vector<>();
-        //required += (char)Tags.get(0).getI();
         String pre = "";
         Boolean che;
         int tempj =0;
@@ -57,7 +62,6 @@ public class LZW {
             che = true;
             if(Tags.get(i).getI() < 128)
             {
-                //System.out.print(pre + " - ");
                 for(int j = 0; j < dict.size(); j++)
                     if(dict.get(j).getKey().equals(pre + (char)Tags.get(i).getI())) { che = false; break; }
                 if(che && i!=0)
@@ -67,7 +71,6 @@ public class LZW {
                 }
                 required += (char)Tags.get(i).getI();
                 pre = Character.toString((char)Tags.get(i).getI());
-                //System.out.println( pre + " -> " +required);
             }
             else 
             {
@@ -75,21 +78,17 @@ public class LZW {
                     if(dict.get(j).getValue().equals(Tags.get(i).getI())) { tempj = j; che = false; break; }
                 if(che)
                 {
-                    //System.out.print(pre + " - ");
                     required += pre + pre.charAt(0);
                     dict.addElement(new Pair(pre + pre.charAt(0) , Tags.get(i).getI()));
                     if(curr == Tags.get(i).getI()) curr++;
                     pre += pre.charAt(0);
-                    //System.out.println(pre + " -> " + required);
                 }
                 else
                 {
-                    //System.out.print(pre + " - ");
                     required += dict.get(tempj).getKey();
                     dict.addElement(new Pair(pre+dict.get(tempj).getKey().charAt(0) , curr));
                     curr++;
                     pre = dict.get(tempj).getKey();
-                    //System.out.println(pre + " -> " + required);
                 }
             }
         }
